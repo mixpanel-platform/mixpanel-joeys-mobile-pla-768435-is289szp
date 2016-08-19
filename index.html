@@ -20,14 +20,16 @@
     
     var runQuery = function() {
       var endpoint = '/api/2.0/segmentation/multiseg';
-      var dates = {"from_date": datePicker.from, "to_date": datePicker.to}
-      var params =  $.extend({}, dates, {
+      var params = {
+              'to_date': new Date(datePicker.val().to).substr(0, 10),
+              'from_date': new Date(datePicker.val().from).substr(0, 10),
               'type': "general",
               'inner': 'properties[\"' + propSelect.val() + '\"]',
               'outer': 'properties[\"' + propSelectt.val() + '\"]',
               'event': eventSelect.val(),
               'unit': "day"
-            });
+            };
+      console.log(params)
       MP.api.query(endpoint, params).done(function(results) {
           console.log(results)
                   
