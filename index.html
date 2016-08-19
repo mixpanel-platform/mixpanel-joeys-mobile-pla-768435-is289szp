@@ -16,6 +16,7 @@
       var propSelect = $('#pselect').MPPropertySelect();
       var propSelectt = $('#pselectt').MPPropertySelect();
       var datePicker = $('#dateSelect').MPDatepicker();
+      var lineChart = $('#lineChart').MPChart({chartType: 'line'});
 
     
     var runQuery = function() {
@@ -31,7 +32,9 @@
             };
       console.log(params)
       MP.api.query(endpoint, params).done(function(results) {
-          console.log(results)
+          console.log(results);
+                        // Create a line chart
+           lineChart.MPChart('setData', results);
                   
                 });
     }
