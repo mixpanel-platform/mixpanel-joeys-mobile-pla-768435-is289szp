@@ -7,9 +7,40 @@
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
+    <div id="eventSelect" style="float: left;"></div>
+    <div id="pselect" style="float: left;"></div>
+    <div id="pselectt" style="float: left;"></div>
+    <div id="dateSelect" style="float: right;"></div>
     <script>
-      // Run queries and display results here
+      var eventSelect = $('#eventSelect').MPEventSelect();
+      var propSelect = $('#pselect').MPPropertySelect();
+      var propSelectt = $('#pselectt').MPPropertySelect();
+      var datePicker = $('#dateSelect').MPDatepicker();
+
+    
+    var runQuery = function() {
+      var endpoint = '/api/2.0/segmentation/multiseg';
+      var dates = {"from_date": datePicker.from, "to_date": datePicker.to}
+      var params =  $.extend({}, dates, {
+              'type': "general",
+              'inner': 'properties[\"' + propSelect.val() + '\"]',
+              'outer': 'properties[\"' + propSelectt.val() + '\"]',
+              'event': eventSelect.val(),
+              'unit': "day"
+            });
+      MP.api.query(endpoint, params).done(function(results) {
+          console.log(results)
+                  
+                });
+    }
+        propSelect.on('change', runQuery);
+        propSelectt.on('change', runQuery);
+        eventSelect.on('change', function(e, eventName) {
+          propSelect.MPPropertySelect('setEvent', eventName);
+          propSelectt.MPPropertySelect('setEvent', eventName);
+          runQuery();
+        })
+        datePicker.on('change', runQuery);
     </script>
   </body>
 </html>
