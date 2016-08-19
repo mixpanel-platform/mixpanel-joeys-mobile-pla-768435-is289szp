@@ -21,8 +21,8 @@
     var runQuery = function() {
       var endpoint = '/api/2.0/segmentation/multiseg';
       var params = {
-              'to_date': new Date(datePicker.val().to).substr(0, 10),
-              'from_date': new Date(datePicker.val().from).substr(0, 10),
+              'to_date': new Date(datePicker.val().to).toISOString().substr(0, 10),
+              'from_date': new Date(datePicker.val().from).toISOString().substr(0, 10),
               'type': "general",
               'inner': 'properties[\"' + propSelect.val() + '\"]',
               'outer': 'properties[\"' + propSelectt.val() + '\"]',
